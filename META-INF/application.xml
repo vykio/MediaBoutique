@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_8.xsd"
+             version="8">
+
+    <module id="MediaBoutiqueEJB-EJB">
+        <ejb>MediaBoutiqueEJB-1.0-SNAPSHOT.jar</ejb>
+    </module>
+    <module id="MediaBoutiqueWeb-Web">
+        <web>
+            <web-uri>MediaBoutiqueWeb-1.0-SNAPSHOT.war</web-uri>
+            <context-root>MediaBoutique</context-root>
+        </web>
+    </module>
+</application>
