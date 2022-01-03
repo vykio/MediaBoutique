@@ -34,7 +34,7 @@ où `MaBootiqueDS` représente le Data Store utilisé dans le projet
 
 - [ ] Ajouter la source de données à notre projet Intellij
 
-- [ ] Lancer le [Scipt SQL](https://gist.github.com/vykio/b3427b5a0eb61d8067103671412584c7) dans notre console SQL (PHPMyAdmin, DBeaver...) sur la base de données afin de créer les tables
+- [ ] Lancer le [Script SQL](https://gist.github.com/vykio/b3427b5a0eb61d8067103671412584c7) dans notre console SQL (PHPMyAdmin, DBeaver...) sur la base de données afin de créer les tables
 
 - [ ] Faire le lien entre les tables créées et les entités en ajoutant la datasource aux entités JPA
 
