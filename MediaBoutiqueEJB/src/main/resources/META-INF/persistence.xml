@@ -6,17 +6,12 @@
 
     <persistence-unit name="managerMaBootique">
         <jta-data-source>java:/MaBootiqueDS</jta-data-source>
-        <class>entity.CategorieEntity</class>
-        <class>entity.CommandeClientEntity</class>
-        <class>entity.ProduitEntity</class>
-        <class>entity.ProduitCommandeEntity</class>
-        <class>entity.ClientEntity</class>
-        <class>entity.CategorieEntity</class>
+
         <class>entity.CategorieEntity</class>
         <class>entity.ClientEntity</class>
+        <class>entity.ProduitCommandeEntity</class>
         <class>entity.CommandeClientEntity</class>
         <class>entity.ProduitEntity</class>
-        <class>entity.ProduitCommandeEntity</class>
 
         <properties>
             <property value="org.hibernate.dialect.MySQLDialect" name="hibernate.dialect"/>

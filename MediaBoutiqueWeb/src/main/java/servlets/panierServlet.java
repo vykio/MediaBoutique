@@ -1,6 +1,7 @@
 package servlets;
 
 import ejb.MaBootiqueEJBLocal;
+import ejb.MaBootiqueEJBRemote;
 import pojo.ItemPanier;
 import pojo.Panier;
 import utils.JndiConnection;
@@ -19,7 +20,7 @@ public class panierServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MaBootiqueEJBLocal local = JndiConnection.Local.connect();
+        MaBootiqueEJBRemote remote = JndiConnection.Remote.connect();
 
         Panier panier;
 
@@ -31,7 +32,7 @@ public class panierServlet extends HttpServlet {
         } else {
             System.out.println(panier);
             for(ItemPanier itemPanier : panier.getItems()){
-                itemPanier.setProduit(local.getProduitById(itemPanier.getProductId()));
+                itemPanier.setProduit(remote.getProduitById(itemPanier.getProductId()));
             }
             panier.updateTotalPanier();
             session.setAttribute("panier_items", panier.getItems());

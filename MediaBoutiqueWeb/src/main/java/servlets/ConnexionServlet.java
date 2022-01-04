@@ -1,6 +1,7 @@
 package servlets;
 
 import ejb.MaBootiqueEJBLocal;
+import ejb.MaBootiqueEJBRemote;
 import entity.ClientEntity;
 import utils.Connection;
 import utils.JndiConnection;
@@ -46,7 +47,7 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        MaBootiqueEJBLocal local = JndiConnection.Local.connect();
+        MaBootiqueEJBRemote remote = JndiConnection.Remote.connect();
         HttpSession session = request.getSession();
 
         if (Connection.isLoggedIn(session)) {
@@ -63,13 +64,13 @@ public class ConnexionServlet extends HttpServlet {
                 String address = request.getParameter("inputAddress");
                 String phone = request.getParameter("inputPhone");
 
-                assert local != null;
-                if(local.emailAlreadyExist(email) || !password.equals(passwordVerif)){
+                assert remote != null;
+                if(remote.emailAlreadyExist(email) || !password.equals(passwordVerif)){
                     response.setStatus(500);
                     return;
                 }
 
-                ClientEntity newClient = local.createClient(name,email,password,address,phone);
+                ClientEntity newClient = remote.createClient(name,email,password,address,phone);
                 response.getWriter().println("ID du nouveau client :"+newClient.getId());
                 response.sendRedirect("login");
                 break;
@@ -77,8 +78,8 @@ public class ConnexionServlet extends HttpServlet {
                 String emailLogin = request.getParameter("inputEmail-login");
                 String passwordLogin = request.getParameter("inputPassword-login");
 
-                assert local != null;
-                ClientEntity client = local.login(emailLogin,passwordLogin);
+                assert remote != null;
+                ClientEntity client = remote.login(emailLogin,passwordLogin);
 
                 if(client == null) {
                     System.out.println("erreur client null");
