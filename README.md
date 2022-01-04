@@ -53,3 +53,9 @@ où `MaBootiqueDS` représente le Data Store utilisé dans le projet
 - [ ] Dans la droplist "Remote Staging" > "Type", mettre `Same file system`
 
 - [ ] Vérifier que nous avons déjà notre .ear dans l'onglet `Déploiement`, si non l'ajouter (MediaBoutique:ear)
+
+    - > Dans le cas où dans les `Artifacts` vous ne trouvez pas l'EJB et l'EAR, il faut les créer manuellement.
+        
+        Pour cela,il faut créer l'artifact de type `EJB exploded` (nommé MediaBoutiqueEJB:ejb exploded) puis créer l'artifact de type `EJB Archive` contenant l'exploded (nommé MediaBoutiqueEJB:ejb)
+        
+        Pour l'EAR, il faut créer un nouvel artifact nommé MediaBoutique:ear exploded de type `JavaEE Application Exploded` contenant les artifacts EJB et WEB et créer l'artifact de type `JavaEE Application Archive` contenant l'EAR exploded.
