@@ -47,7 +47,7 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        MaBootiqueEJBRemote remote = JndiConnection.Remote.connect();
+        MaBootiqueEJBRemote jndi = JndiConnection.Remote.connect("MaBootique");
         HttpSession session = request.getSession();
 
         if (Connection.isLoggedIn(session)) {
@@ -64,13 +64,13 @@ public class ConnexionServlet extends HttpServlet {
                 String address = request.getParameter("inputAddress");
                 String phone = request.getParameter("inputPhone");
 
-                assert remote != null;
-                if(remote.emailAlreadyExist(email) || !password.equals(passwordVerif)){
+                assert jndi != null;
+                if(jndi.emailAlreadyExist(email) || !password.equals(passwordVerif)){
                     response.setStatus(500);
                     return;
                 }
 
-                ClientEntity newClient = remote.createClient(name,email,password,address,phone);
+                ClientEntity newClient = jndi.createClient(name,email,password,address,phone);
                 response.getWriter().println("ID du nouveau client :"+newClient.getId());
                 response.sendRedirect("login");
                 break;
@@ -78,8 +78,8 @@ public class ConnexionServlet extends HttpServlet {
                 String emailLogin = request.getParameter("inputEmail-login");
                 String passwordLogin = request.getParameter("inputPassword-login");
 
-                assert remote != null;
-                ClientEntity client = remote.login(emailLogin,passwordLogin);
+                assert jndi != null;
+                ClientEntity client = jndi.login(emailLogin,passwordLogin);
 
                 if(client == null) {
                     System.out.println("erreur client null");
@@ -90,7 +90,7 @@ public class ConnexionServlet extends HttpServlet {
                 session.setAttribute("client", client);
 
                 response.getWriter().println("Informations du client connecté : "+client.getId()+", "+ client.getNom()+", "+client.getEmail());
-                response.sendRedirect("validation");
+                response.sendRedirect("index");
                 break;
         }
 

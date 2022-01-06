@@ -7,6 +7,7 @@ import pojo.ItemPanier;
 import pojo.Panier;
 import utils.Connection;
 import utils.JndiConnection;
+import utils.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,27 +28,35 @@ public class ConfirmationServlet extends HttpServlet {
             return;
         }
 
+        if (!Utils.sessionAttributeExists(request.getSession(), "panier")) {
+            response.setStatus(403);
+            response.sendRedirect(request.getContextPath() + "/index");
+            return;
+        }
+
         request.getRequestDispatcher("confirmation.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        GestionCommandeEJBRemote remote = JndiConnection.Remote.connect();
-
+        GestionCommandeEJBRemote jndi = JndiConnection.Remote.connect("GestionCommande");
 
         HttpSession session = request.getSession();
         ClientEntity client = (ClientEntity) session.getAttribute("client");
         Panier panier = (Panier) session.getAttribute("panier");
 
-        /*
-        CommandeClientEntity commandeClientEntity = remote.createCommande(panier.getTotal(),client.getId());
+        CommandeClientEntity commandeClientEntity = jndi.createCommande(panier.getTotal(),client.getId());
 
         List<ItemPanier> items = panier.getItems();
         for (ItemPanier item : items ) {
-            remote.setLignesCommandes(commandeClientEntity.getId(), item.getProductId(), item.getQuantity());
+            jndi.setLignesCommandes(commandeClientEntity.getId(), item.getProductId(), item.getQuantity());
         }
 
-         */
+        // Supprimer le panier
+
+        // Rediriger vers la page d'accueil en donnant un paramètre (hors session) de type String message
+        // et qui sera utilisé par le front si il existe
+
     }
 }

@@ -16,6 +16,10 @@ public class indexServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        // Récupérer l'attribute message
+        // Switch case "panier_success" -> Affiche "blabl blab la"
+
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 

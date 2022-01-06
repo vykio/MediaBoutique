@@ -1,9 +1,6 @@
 package entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -12,7 +9,8 @@ import java.time.Instant;
 @Table(name = "commande_client")
 public class CommandeClientEntity implements Serializable {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, columnDefinition = "INT(11) NOT NULL AUTO_INCREMENT")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "montant", nullable = false, precision = 6, scale = 2)

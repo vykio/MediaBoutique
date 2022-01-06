@@ -20,16 +20,16 @@ import java.util.List;
 public class categorieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MaBootiqueEJBRemote remote = JndiConnection.Remote.connect();
+        MaBootiqueEJBRemote jndi = JndiConnection.Remote.connect("MaBootique");
 
         List<CategorieEntity> categoriesFound = new ArrayList<>();
         List<ProduitEntity> produitsFound = new ArrayList<>();
 
         if(request.getParameterMap().containsKey("id") && !request.getParameter("id").isEmpty())
         {
-            produitsFound = remote.getProduits(request.getParameter("id"));
+            produitsFound = jndi.getProduits(request.getParameter("id"));
         }
-        categoriesFound = remote.getCategories();
+        categoriesFound = jndi.getCategories();
 
         HttpSession session = request.getSession();
         session.setAttribute("categories", categoriesFound);

@@ -35,4 +35,4 @@
     </tbody>
 </table>
 
-<a id="validation-panier" class="btn btn-success btn-lg d-block mx-auto" href="register" role="button"> Valider le panier </a>
+<a id="validation-panier" class="btn btn-success btn-lg d-block mx-auto" href="validation" role="button"> Valider le panier </a>

@@ -20,7 +20,7 @@ public class panierServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MaBootiqueEJBRemote remote = JndiConnection.Remote.connect();
+        MaBootiqueEJBRemote jndi = JndiConnection.Remote.connect("MaBootique");
 
         Panier panier;
 
@@ -32,7 +32,7 @@ public class panierServlet extends HttpServlet {
         } else {
             System.out.println(panier);
             for(ItemPanier itemPanier : panier.getItems()){
-                itemPanier.setProduit(remote.getProduitById(itemPanier.getProductId()));
+                itemPanier.setProduit(jndi.getProduitById(itemPanier.getProductId()));
             }
             panier.updateTotalPanier();
             session.setAttribute("panier_items", panier.getItems());

@@ -1,5 +1,6 @@
 package ejb;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -11,7 +12,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-public class GestionCommandeEJB {
+@Stateless(name = "GestionCommandeJNDI")
+public class GestionCommandeEJB implements GestionCommandeEJBRemote, GestionCommandeEJBLocal {
 
     @PersistenceContext(unitName = "managerMaBootique")
     EntityManager em;
@@ -26,7 +28,7 @@ public class GestionCommandeEJB {
         commandeClient.setMontant(total);
         commandeClient.setClientId(clientId);
         commandeClient.setDateCreation(Instant.now());
-        commandeClient.setNoConfirmation(commandeClient.getId());
+        commandeClient.setNoConfirmation(123);
 
         em.persist(commandeClient);
 
