@@ -11,6 +11,7 @@ import entity.ProduitCommandeEntity;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Random;
 
 @Stateless(name = "GestionCommandeJNDI")
 public class GestionCommandeEJB implements GestionCommandeEJBRemote, GestionCommandeEJBLocal {
@@ -28,7 +29,7 @@ public class GestionCommandeEJB implements GestionCommandeEJBRemote, GestionComm
         commandeClient.setMontant(total);
         commandeClient.setClientId(clientId);
         commandeClient.setDateCreation(Instant.now());
-        commandeClient.setNoConfirmation(123);
+        commandeClient.setNoConfirmation(new Random().nextInt((999999999)) + 1);
 
         em.persist(commandeClient);
 

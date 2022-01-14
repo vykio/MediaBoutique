@@ -1,6 +1,7 @@
 <%@ page import="utils.Connection" %>
 <%@ page import="entity.ClientEntity" %>
 <%@ page import="static utils.Utils.requestAttributeExists" %>
+<%@ page import="entity.CommandeClientEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getParameter("path");
@@ -41,11 +42,26 @@
             String alertMsg = (String)request.getAttribute("error-msg");
         %>
         <div class="alert alert-danger" id="failure-alert">
-            <strong>Erreur! </strong> <%= alertMsg %>
+            <strong>Erreur ! </strong> <%= alertMsg %>
         </div>
         <%
             }
         %>
+
+        <% if (requestAttributeExists(request, "confirmation") && requestAttributeExists(request, "confirmation") ) {
+            String alertMsg = (String)request.getAttribute("confirmation");
+            CommandeClientEntity command = (CommandeClientEntity) request.getAttribute("command");
+            alertMsg = alertMsg + " Le numéro de confirmation de votre commande est le n°" + command.getNoConfirmation();
+            request.removeAttribute("command");
+        %>
+
+        <div class="alert alert-success" id="success-alert">
+            <strong>Bravo ! </strong> <%= alertMsg %>
+        </div>
+        <%
+            }
+        %>
+
 
         <div class="alert alert-success" id="success-alert" style="display: none">
             <strong>Réussite! </strong> Le produit a été ajouté à votre panier
