@@ -57,7 +57,8 @@ public class panierServlet extends HttpServlet {
         }
 
         if(idToRemove == null && idToAdd == null) {
-            response.setStatus(500);
+            request.setAttribute("error-msg", "Impossible d'effectuer cette action");
+            request.getRequestDispatcher("panier.jsp").forward(request,response);
             return;
         }
 

@@ -66,7 +66,8 @@ public class ConnexionServlet extends HttpServlet {
 
                 assert jndi != null;
                 if(jndi.emailAlreadyExist(email) || !password.equals(passwordVerif)){
-                    response.setStatus(500);
+                    request.setAttribute("error-msg", "L'email est déjà utilisée ou les deux mots de passes ne correspondent pas");
+                    request.getRequestDispatcher("enregistrement.jsp").forward(request,response);
                     return;
                 }
 
@@ -82,8 +83,8 @@ public class ConnexionServlet extends HttpServlet {
                 ClientEntity client = jndi.login(emailLogin,passwordLogin);
 
                 if(client == null) {
-                    System.out.println("erreur client null");
-                    response.setStatus(500);
+                    request.setAttribute("error-msg", "L'adresse mail ou le mot de passe est incorrect");
+                    request.getRequestDispatcher("connexion.jsp").forward(request,response);
                     return;
                 }
 

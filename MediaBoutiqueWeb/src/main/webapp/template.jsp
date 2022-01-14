@@ -1,5 +1,6 @@
 <%@ page import="utils.Connection" %>
 <%@ page import="entity.ClientEntity" %>
+<%@ page import="static utils.Utils.requestAttributeExists" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getParameter("path");
@@ -36,8 +37,19 @@
 
 <main class="flex-shrink-0">
     <div class="container" style="padding-top: 50px">
+        <% if (requestAttributeExists(request, "error-msg")) {
+            String alertMsg = (String)request.getAttribute("error-msg");
+            System.out.println(alertMsg);
+        %>
+        <div class="alert alert-danger" id="failure-alert">
+            <strong>Erreur! </strong> <%= alertMsg %>
+        </div>
+        <%
+            }
+        %>
+
         <div class="alert alert-success" id="success-alert" style="display: none">
-            <strong>Success! </strong> Product have added to your wishlist.
+            <strong>Réussite! </strong> Le produit a été ajouté à votre panier
         </div>
         <div class="row align-items-start full-height">
             <div class="col-3 no-float">
