@@ -39,7 +39,6 @@
     <div class="container" style="padding-top: 50px">
         <% if (requestAttributeExists(request, "error-msg")) {
             String alertMsg = (String)request.getAttribute("error-msg");
-            System.out.println(alertMsg);
         %>
         <div class="alert alert-danger" id="failure-alert">
             <strong>Erreur! </strong> <%= alertMsg %>

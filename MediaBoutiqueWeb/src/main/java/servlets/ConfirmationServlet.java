@@ -54,9 +54,10 @@ public class ConfirmationServlet extends HttpServlet {
         }
 
         // Supprimer le panier
-
+        session.removeAttribute("panier");
         // Rediriger vers la page d'accueil en donnant un paramètre (hors session) de type String message
         // et qui sera utilisé par le front si il existe
-
+        session.setAttribute("confirmation", "Merci pour votre commande !");
+        response.sendRedirect(request.getContextPath() + "/index");
     }
 }
