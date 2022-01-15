@@ -1,6 +1,7 @@
 package servlets;
 
 import ejb.MaBootiqueEJBLocal;
+import ejb.MaBootiqueEJBRemote;
 import entity.ClientEntity;
 import utils.Connection;
 import utils.JndiConnection;
@@ -46,7 +47,7 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        MaBootiqueEJBLocal local = JndiConnection.Local.connect();
+        MaBootiqueEJBRemote jndi = JndiConnection.Remote.connect("MaBootique");
         HttpSession session = request.getSession();
 
         if (Connection.isLoggedIn(session)) {
@@ -63,13 +64,14 @@ public class ConnexionServlet extends HttpServlet {
                 String address = request.getParameter("inputAddress");
                 String phone = request.getParameter("inputPhone");
 
-                assert local != null;
-                if(local.emailAlreadyExist(email) || !password.equals(passwordVerif)){
-                    response.setStatus(500);
+                assert jndi != null;
+                if(jndi.emailAlreadyExist(email) || !password.equals(passwordVerif)){
+                    request.setAttribute("error-msg", "L'email est déjà utilisée ou les deux mots de passes ne correspondent pas");
+                    request.getRequestDispatcher("enregistrement.jsp").forward(request,response);
                     return;
                 }
 
-                ClientEntity newClient = local.createClient(name,email,password,address,phone);
+                ClientEntity newClient = jndi.createClient(name,email,password,address,phone);
                 response.getWriter().println("ID du nouveau client :"+newClient.getId());
                 response.sendRedirect("login");
                 break;
@@ -77,19 +79,19 @@ public class ConnexionServlet extends HttpServlet {
                 String emailLogin = request.getParameter("inputEmail-login");
                 String passwordLogin = request.getParameter("inputPassword-login");
 
-                assert local != null;
-                ClientEntity client = local.login(emailLogin,passwordLogin);
+                assert jndi != null;
+                ClientEntity client = jndi.login(emailLogin,passwordLogin);
 
                 if(client == null) {
-                    System.out.println("erreur client null");
-                    response.setStatus(500);
+                    request.setAttribute("error-msg", "L'adresse mail ou le mot de passe est incorrect");
+                    request.getRequestDispatcher("connexion.jsp").forward(request,response);
                     return;
                 }
 
                 session.setAttribute("client", client);
 
                 response.getWriter().println("Informations du client connecté : "+client.getId()+", "+ client.getNom()+", "+client.getEmail());
-                response.sendRedirect("validation");
+                response.sendRedirect("index");
                 break;
         }
 

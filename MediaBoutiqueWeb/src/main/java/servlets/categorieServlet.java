@@ -1,6 +1,7 @@
 package servlets;
 
 import ejb.MaBootiqueEJBLocal;
+import ejb.MaBootiqueEJBRemote;
 import entity.CategorieEntity;
 import entity.ProduitEntity;
 import utils.JndiConnection;
@@ -19,16 +20,16 @@ import java.util.List;
 public class categorieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MaBootiqueEJBLocal local = JndiConnection.Local.connect();
+        MaBootiqueEJBRemote jndi = JndiConnection.Remote.connect("MaBootique");
 
         List<CategorieEntity> categoriesFound = new ArrayList<>();
         List<ProduitEntity> produitsFound = new ArrayList<>();
 
         if(request.getParameterMap().containsKey("id") && !request.getParameter("id").isEmpty())
         {
-            produitsFound = local.getProduits(request.getParameter("id"));
+            produitsFound = jndi.getProduits(request.getParameter("id"));
         }
-        categoriesFound = local.getCategories();
+        categoriesFound = jndi.getCategories();
 
         HttpSession session = request.getSession();
         session.setAttribute("categories", categoriesFound);

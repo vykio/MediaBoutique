@@ -10,7 +10,7 @@ public enum JndiConnection {
     Local, Remote;
 
     @SuppressWarnings("unchecked")
-    public <T> T connect() {
+    public <T> T connect(String ejbClassPrefix) {
 
         try {
             final Hashtable jndiProperties = new Hashtable();
@@ -19,9 +19,9 @@ public enum JndiConnection {
 
             switch(this) {
                 case Local:
-                    return (T) context.lookup("java:app/MediaBoutiqueWeb-1.0-SNAPSHOT/MaBootiqueJNDI!ejb.MaBootiqueEJBLocal");
+                    return (T) context.lookup("java:app/MediaBoutiqueWeb-1.0-SNAPSHOT/" + ejbClassPrefix + "JNDI!ejb." + ejbClassPrefix + "EJBLocal");
                 case Remote:
-                    return (T) context.lookup("ejb:MediaBoutique_ear/MediaBoutiqueWeb-1.0-SNAPSHOT/MaBootiqueJNDI!ejb.MaBootiqueEJBRemote");
+                    return (T) context.lookup("ejb:MediaBoutique_ear/MediaBoutiqueWeb-1.0-SNAPSHOT/" + ejbClassPrefix + "JNDI!ejb." + ejbClassPrefix + "EJBRemote");
                 default:
                     return null;
             }

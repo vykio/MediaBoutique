@@ -1,6 +1,7 @@
 package servlets;
 
 import ejb.MaBootiqueEJBLocal;
+import ejb.MaBootiqueEJBRemote;
 import pojo.ItemPanier;
 import pojo.Panier;
 import utils.JndiConnection;
@@ -19,7 +20,7 @@ public class panierServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MaBootiqueEJBLocal local = JndiConnection.Local.connect();
+        MaBootiqueEJBRemote jndi = JndiConnection.Remote.connect("MaBootique");
 
         Panier panier;
 
@@ -31,7 +32,7 @@ public class panierServlet extends HttpServlet {
         } else {
             System.out.println(panier);
             for(ItemPanier itemPanier : panier.getItems()){
-                itemPanier.setProduit(local.getProduitById(itemPanier.getProductId()));
+                itemPanier.setProduit(jndi.getProduitById(itemPanier.getProductId()));
             }
             panier.updateTotalPanier();
             session.setAttribute("panier_items", panier.getItems());
@@ -56,7 +57,8 @@ public class panierServlet extends HttpServlet {
         }
 
         if(idToRemove == null && idToAdd == null) {
-            response.setStatus(500);
+            request.setAttribute("error-msg", "Impossible d'effectuer cette action");
+            request.getRequestDispatcher("panier.jsp").forward(request,response);
             return;
         }
 
